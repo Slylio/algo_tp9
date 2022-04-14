@@ -1,0 +1,2 @@
+from simulFileAttente import SimulFileAttente
+SimulFileAttente.main()
