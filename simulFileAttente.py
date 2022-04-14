@@ -102,10 +102,11 @@ class SimulFileAttente():
         i=0.00025
         count=1
         while i<=0.025:
-            print (str(count)+"clients non servis/total= "+str(self.simul_ter(i)))
+            print (str(count)+" clients non servis/total= "+str(self.simul_ter(i)))
             x.append(i)
             y.append(self.simul_ter(i))
-            i+=0.00025
+            i+=0.0025
+            count+=1
 
 
         plt.plot(x,y)
