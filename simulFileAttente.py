@@ -1,6 +1,7 @@
 from http import client
 from random import random
 from random import uniform
+import numpy as np
 import matplotlib.pyplot as plt
 import queue_list
 class SimulFileAttente():
@@ -19,7 +20,6 @@ class SimulFileAttente():
         def __init__(self,t,waitMin,waitMax) -> None:
             self.t= t
             waitMin,waitMax=30,80
-            #leave time = l'heure + leur patience
             self.leaveTime=t+uniform(waitMin, waitMax)
     
     def simul(self,p):
@@ -55,7 +55,7 @@ class SimulFileAttente():
                 bool=True
                 serviceTimeCounter-=1
             if bool==False:
-                if time>self.queue.mfront.value.leavingTime or self.queue.empty_queue():
+                if time>self.queue.mfront.value.leaveTime or self.queue.empty_queue():
                     clientsNotServed+=1
                     self.queue.dequeue()
                 if not self.queue.empty_queue():
@@ -82,7 +82,7 @@ class SimulFileAttente():
             for _ in range(self.queue.size):
                 elt=self.queue.mfront.value
                 self.queue.dequeue()
-                if time>elt.leavingTime:
+                if time>elt.leaveTime:
                     self.queue.enqueue(elt)
                 else :
                     clientsNotServed+=1
@@ -97,11 +97,16 @@ class SimulFileAttente():
         return clientsNotServed/totalOfClients
     
     def main(self):
-        x=[]    #création des points en abcisse
+        x=[]    #création des points en abcsisse
         y=[]    #en ordonnées
-        for i in range(0.00025,0.025,0.00025):  #on se balade dans les valeurs
-            print ("clients non servis/total= "+str(self.simul_ter(i))) 
+        i=0.00025
+        count=1
+        while i<=0.025:
+            print (str(count)+"clients non servis/total= "+str(self.simul_ter(i)))
             x.append(i)
             y.append(self.simul_ter(i))
+            i+=0.00025
+
+
         plt.plot(x,y)
         plt.show()
